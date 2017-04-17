@@ -13,10 +13,15 @@ class BeanstalkdServerTest
 
 	public function checkEnvironment () {
 		$this->checkInDocker();
+
+		$this->assertArrayHasKey('BEANSTALKD_PORT', $_ENV,
+			"No BEANSTALKD_PORT ENV variable found! Is this test running in the test container?");
+		$this->assertGreaterThan(1024, $_ENV['BEANSTALKD_PORT'],
+			"Invalid BEANSTALKD_PORT ENV variable!");
 	}
 
 	public function getWorkServerAdapter () : WorkServerAdapter {
-		return new BeanstalkdWorkServer ("localhost");
+		return new BeanstalkdWorkServer ("localhost", (int)$_ENV['BEANSTALKD_PORT']);
 	}
 
 }

@@ -5,7 +5,7 @@ all:
 COMPOSER=./composer.phar
 
 TEST_CONTAINER=mle86/php-wq-beanstalkd-test
-TEST_CONTAINER_VERSION=1.0.0
+TEST_CONTAINER_VERSION=1.0.1
 
 
 # dep: Install dependencies necessary for development work on this library.
