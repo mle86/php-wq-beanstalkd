@@ -11,6 +11,10 @@ class BeanstalkdServerTest
 	extends AbstractWorkServerAdapterTest
 {
 
+	public function checkEnvironment () {
+		$this->checkInDocker();
+	}
+
 	public function getWorkServerAdapter () : WorkServerAdapter {
 		return new BeanstalkdWorkServer ("localhost");
 	}
