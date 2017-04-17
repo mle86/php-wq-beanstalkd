@@ -23,12 +23,12 @@ update: $(COMPOSER)
 
 test-container:
 	[ -n "`docker images -q '$(TEST_CONTAINER):$(TEST_CONTAINER_VERSION)'`" ] \
-	|| docker build --tag $(TEST_CONTAINER):$(TEST_CONTAINER_VERSION) --tag $(TEST_CONTAINER) .
+	|| docker build --tag $(TEST_CONTAINER):$(TEST_CONTAINER_VERSION) .
 
 # test: Executes all phpUnit tests according to the local phpunit.xml.dist file.
 test: dep test-container
-	docker run --rm  --volume "`pwd`":/mnt:ro  $(TEST_CONTAINER)  vendor/bin/phpunit -v
+	docker run --rm  --volume "`pwd`":/mnt:ro  $(TEST_CONTAINER):$(TEST_CONTAINER_VERSION)  vendor/bin/phpunit -v
 
 clean:
-	docker rmi $(TEST_CONTAINER) $(TEST_CONTAINER):$(TEST_CONTAINER_VERSION)  || true
+	docker rmi $(TEST_CONTAINER):$(TEST_CONTAINER_VERSION)  || true
 
