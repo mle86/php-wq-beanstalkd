@@ -14,11 +14,11 @@ class BeanstalkdServerTest
 	public function checkEnvironment () {
 		$this->checkInDocker();
 
-		$this->assertArrayHasKey('BEANSTALKD_PORT', $_ENV,
+		$this->assertTrue((getenv('BEANSTALKD_PORT') !== false),
 			"No BEANSTALKD_PORT ENV variable found! Is this test running in the test container?");
-		$this->assertGreaterThan(1024, $_ENV['BEANSTALKD_PORT'],
+		$this->assertGreaterThan(1024, getenv('BEANSTALKD_PORT'),
 			"Invalid BEANSTALKD_PORT ENV variable!");
-		$this->assertNotEquals(PheanstalkInterface::DEFAULT_PORT , $_ENV['BEANSTALKD_PORT'],
+		$this->assertNotEquals(PheanstalkInterface::DEFAULT_PORT , getenv('BEANSTALKD_PORT'),
 			"BEANSTALKD_PORT ENV variable should NOT be set to the default Beanstalkd port! " .
 			"This prevents the test scripts from accidentally running on the host system.");
 
@@ -35,7 +35,7 @@ class BeanstalkdServerTest
 	}
 
 	public function getWorkServerAdapter () : WorkServerAdapter {
-		return new BeanstalkdWorkServer ("localhost", (int)$_ENV['BEANSTALKD_PORT']);
+		return new BeanstalkdWorkServer ("localhost", (int)getenv('BEANSTALKD_PORT'));
 	}
 
 }
