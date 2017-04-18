@@ -1,4 +1,4 @@
-# php-wq-beanstalkd
+# WQ-Beanstalkd  (`mle86/wq-beanstalkd`)
 
 This package contains the PHP class
 `mle86\WQ\WorkServerAdapter\`**`BeanstalkdWorkServer`**.
@@ -13,9 +13,6 @@ by Paul Annesley.
 
 
 ## Installation
-
-The package's name on Packagist is
-[**`mle86/wq-beanstalkd`**](https://packagist.org/packages/mle86/wq-beanstalkd).
 
 ```
 $ composer require mle86/wq-beanstalkd
