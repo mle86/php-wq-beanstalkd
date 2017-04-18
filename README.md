@@ -12,7 +12,20 @@ using the [pda/pheanstalk](https://github.com/pda/pheanstalk) package
 by Paul Annesley.
 
 
-## Installation
+# Version and Compatibility
+
+This is
+**version 1.0.0**
+of `mle86/wq-beanstalkd`.
+
+It was developed for
+version 1.0.0
+of `mle86/wq`
+and should be compatible
+with all of its future 1.x versions as well.
+
+
+# Installation
 
 ```
 $ composer require mle86/wq-beanstalkd
