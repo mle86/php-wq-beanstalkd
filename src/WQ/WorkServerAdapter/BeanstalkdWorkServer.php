@@ -27,8 +27,8 @@ class BeanstalkdWorkServer
 
 	/** @var Pheanstalk */
 	private $ph;
-	/** @var string|null */
-	private $lastWatched = null;
+	/** @var array|null */
+	private $lastWatched = [];
 
 
 	public function __construct (string $host = "localhost", int $port = PheanstalkInterface::DEFAULT_PORT, int $connectTimeout = null) {
@@ -48,16 +48,12 @@ class BeanstalkdWorkServer
 	 * @throws UnserializationException
 	 */
 	public function getNextQueueEntry (string $workQueue, int $timeout = self::DEFAULT_TIMEOUT) : ?QueueEntry {
-		$this->ph->watch($workQueue);
-		if (isset($this->lastWatched) && $this->lastWatched !== $workQueue) {
-			$this->ph->ignore($this->lastWatched);
-		}
-		$this->lastWatched = $workQueue;
-
 		if ($timeout === WorkServerAdapter::FOREVER) {
 			// Beanstalkd has no real "forever" timeout option. This should be long enough...
 			$timeout = 60 * 60 * 24 * 365 * 10;
 		}
+
+		$this->enterWorkQueues((array)$workQueue);
 
 		$jobHandle = $this->ph->reserve($timeout);
 		if (!$jobHandle) {
@@ -75,6 +71,26 @@ class BeanstalkdWorkServer
 			$this->ph->bury($jobHandle);
 			throw $e;
 		}
+	}
+
+	/**
+	 * Make sure we're WATCHing the correct tubes
+	 * and nothing else.
+	 *
+	 * @param string[] $workQueues
+	 */
+	private function enterWorkQueues (array $workQueues) {
+		$watch_tubes  = array_diff($workQueues, $this->lastWatched);
+		$ignore_tubes = array_diff($this->lastWatched, $workQueues);
+
+		foreach ($watch_tubes as $t) {
+			$this->ph->watch($t);
+		}
+		foreach ($ignore_tubes as $t) {
+			$this->ph->ignore($t);
+		}
+
+		$this->lastWatched = $workQueues;
 	}
 
 	/**
