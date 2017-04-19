@@ -28,7 +28,7 @@ class BeanstalkdWorkServer
 	/** @var Pheanstalk */
 	private $ph;
 	/** @var array|null */
-	private $lastWatched = [];
+	private $lastWatched = ["default"];  // By default, all clients are watching the "default" tube. We don't want that.
 
 
 	public function __construct (string $host = "localhost", int $port = PheanstalkInterface::DEFAULT_PORT, int $connectTimeout = null) {
