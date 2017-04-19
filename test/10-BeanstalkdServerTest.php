@@ -4,6 +4,7 @@ namespace mle86\WQ\Tests;
 use mle86\WQ\WorkServerAdapter\WorkServerAdapter;
 use mle86\WQ\WorkServerAdapter\BeanstalkdWorkServer;
 use mle86\WQ\Job\QueueEntry;
+use Pheanstalk\Exception\ConnectionException;
 use Pheanstalk\Pheanstalk;
 use Pheanstalk\PheanstalkInterface;
 
@@ -28,7 +29,7 @@ class BeanstalkdServerTest
 		try {
 			(new BeanstalkdWorkServer (new Pheanstalk ("localhost", PheanstalkInterface::DEFAULT_PORT)))
 				->getNextQueueEntry("@this-should-not-exist-29743984375345", BeanstalkdWorkServer::NOBLOCK);
-		} catch (\Pheanstalk\Exception\ConnectionException $e) {
+		} catch (ConnectionException $e) {
 			// ok
 		}
 		$this->assertInstanceOf(\Exception::class, $e,
