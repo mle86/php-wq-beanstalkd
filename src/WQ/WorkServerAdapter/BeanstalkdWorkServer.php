@@ -61,10 +61,22 @@ class BeanstalkdWorkServer
 			return null;
 		}
 
+		if (is_scalar($workQueue)) {
+			// Ok, we know where this job came from, as we were polling only one tube:
+			$fromWorkQueue = $workQueue;
+		} elseif (is_array($workQueue) && count($workQueue) === 1) {
+			// Ditto, just a different call syntax
+			$fromWorkQueue = reset($workQueue);
+		} else {
+			// We polled multiple tubes at once,
+			// so we'll have to ask the server about the job's origin:
+			$fromWorkQueue = ($this->ph->statsJob($jobHandle))['tube'];
+		}
+
 		try {
 			return QueueEntry::fromSerializedJob(
 				$jobHandle->getData(),
-				$workQueue,
+				$fromWorkQueue,
 				$jobHandle,
 				$jobHandle->getId() );
 		} catch (UnserializationException $e) {
