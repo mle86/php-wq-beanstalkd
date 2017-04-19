@@ -39,7 +39,7 @@ class BeanstalkdWorkServer
 	 * This takes the next job from the named work queue
 	 * and returns it.
 	 *
-	 * @param string $workQueue The name of the Work Queue to poll.
+	 * @param string|string[] $workQueue The name(s) of the Work Queue(s) to poll.
 	 * @param int $timeout How many seconds to wait for a job to arrive, if none is available immediately.
 	 *                        Set this to NOBLOCK if the method should return immediately.
 	 *                        Set this to BLOCK if the call should block until a job becomes available, no matter how long it takes.
@@ -47,7 +47,7 @@ class BeanstalkdWorkServer
 	 *                     or NULL if no job was available after waiting for $timeout seconds.
 	 * @throws UnserializationException
 	 */
-	public function getNextQueueEntry (string $workQueue, int $timeout = self::DEFAULT_TIMEOUT) : ?QueueEntry {
+	public function getNextQueueEntry ($workQueue, int $timeout = self::DEFAULT_TIMEOUT) : ?QueueEntry {
 		if ($timeout === WorkServerAdapter::FOREVER) {
 			// Beanstalkd has no real "forever" timeout option. This should be long enough...
 			$timeout = 60 * 60 * 24 * 365 * 10;
