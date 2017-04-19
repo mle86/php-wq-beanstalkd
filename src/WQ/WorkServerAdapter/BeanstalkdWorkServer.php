@@ -48,10 +48,10 @@ class BeanstalkdWorkServer
 	 * @throws UnserializationException
 	 */
 	public function getNextQueueEntry (string $workQueue, int $timeout = self::DEFAULT_TIMEOUT) : ?QueueEntry {
+		$this->ph->watch($workQueue);
 		if (isset($this->lastWatched) && $this->lastWatched !== $workQueue) {
 			$this->ph->ignore($this->lastWatched);
 		}
-		$this->ph->watch($workQueue);
 		$this->lastWatched = $workQueue;
 
 		if ($timeout === WorkServerAdapter::FOREVER) {
