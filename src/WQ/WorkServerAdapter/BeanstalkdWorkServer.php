@@ -31,9 +31,33 @@ class BeanstalkdWorkServer
 	private $lastWatched = ["default"];  // By default, all clients are watching the "default" tube. We don't want that.
 
 
-	public function __construct (string $host = "localhost", int $port = PheanstalkInterface::DEFAULT_PORT, int $connectTimeout = null) {
-		$this->ph = new Pheanstalk ($host, $port, $connectTimeout);
+	/**
+	 * Constructor.
+	 * Takes an already-configured {@see Pheanstalk} instance to work with.
+	 * Does not attempt to establish a connection itself --
+	 * use the {@see connect()} factory method for that instead.
+	 *
+	 * @param Pheanstalk $ph
+	 */
+	public function __construct (Pheanstalk $ph) {
+		$this->ph = $ph;
 	}
+
+	/**
+	 * Factory method.
+	 * This will create a new {@see Pheanstalk} instance by itself.
+	 *
+	 * See {@see Pheanstalk::__construct} for the parameter descriptions.
+	 *
+	 * @param string $host
+	 * @param int $port
+	 * @param int|null $connectTimeout
+	 * @return self
+	 */
+	public static function connect (string $host = "localhost", int $port = PheanstalkInterface::DEFAULT_PORT, int $connectTimeout = null) {
+		return new self (new Pheanstalk ($host, $port, $connectTimeout));
+	}
+
 
 	/**
 	 * This takes the next job from the named work queue

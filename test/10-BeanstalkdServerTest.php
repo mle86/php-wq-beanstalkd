@@ -4,6 +4,7 @@ namespace mle86\WQ\Tests;
 use mle86\WQ\WorkServerAdapter\WorkServerAdapter;
 use mle86\WQ\WorkServerAdapter\BeanstalkdWorkServer;
 use mle86\WQ\Job\QueueEntry;
+use Pheanstalk\Pheanstalk;
 use Pheanstalk\PheanstalkInterface;
 
 require_once __DIR__.'/../vendor/mle86/wq/test/helper/AbstractWorkServerAdapterTest.php';
@@ -25,7 +26,7 @@ class BeanstalkdServerTest
 
 		$e = null;
 		try {
-			(new BeanstalkdWorkServer ("localhost", PheanstalkInterface::DEFAULT_PORT))
+			(new BeanstalkdWorkServer (new Pheanstalk ("localhost", PheanstalkInterface::DEFAULT_PORT)))
 				->getNextQueueEntry("@this-should-not-exist-29743984375345", BeanstalkdWorkServer::NOBLOCK);
 		} catch (\Pheanstalk\Exception\ConnectionException $e) {
 			// ok
@@ -36,7 +37,7 @@ class BeanstalkdServerTest
 	}
 
 	public function getWorkServerAdapter () : WorkServerAdapter {
-		return new BeanstalkdWorkServer ("localhost", (int)getenv('BEANSTALKD_PORT'));
+		return BeanstalkdWorkServer::connect("localhost", (int)getenv('BEANSTALKD_PORT'));
 	}
 
 	public function additionalTests (WorkServerAdapter $ws) {

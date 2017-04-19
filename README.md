@@ -43,8 +43,15 @@ and `deleteEntry()` uses the `DELETE` command.
 
 *Work Queues* are Beanstalkd's “tubes”.
 
-* `public function` **`__construct`** `(string $host = "localhost", int $port = PheanstalkInterface::DEFAULT_PORT, int $connectTimeout = null)`  
-    See [Pheanstalk::__construct](https://github.com/pda/pheanstalk/blob/master/src/Pheanstalk.php).
+* `public function` **`__construct`** `(Pheanstalk $pheanstalk)`  
+    Constructor.
+    Takes an already-configured `Pheanstalk` instance to work with.
+    Does not attempt to establish a connection itself --
+    use the `connect()` factory method for that instead.
+* `public static function` **`connect`** `(string $host = "localhost", int $port = PheanstalkInterface::DEFAULT_PORT, int $connectTimeout = null)`  
+    Factory method.
+    See [Pheanstalk::__construct](https://github.com/pda/pheanstalk/blob/master/src/Pheanstalk.php)
+    for the parameter descriptions.
 
 
 # Usage example
@@ -54,7 +61,7 @@ and `deleteEntry()` uses the `DELETE` command.
 use mle86\WQ\WorkProcessor;
 use mle86\WQ\WorkServerAdapter\BeanstalkdWorkServer;
 
-$processor = new WorkProcessor( new BeanstalkdWorkServer("localhost") );
+$processor = new WorkProcessor( BeanstalkdWorkServer::connect("localhost") );
 
 while (true) {
     $processor->executeNextJob("mail");
