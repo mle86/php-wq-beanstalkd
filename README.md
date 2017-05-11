@@ -67,13 +67,16 @@ which are documented in the [`WorkServerAdapter`](https://github.com/mle86/php-w
 
 ```php
 <?php
-use mle86\WQ\WorkProcessor;
 use mle86\WQ\WorkServerAdapter\BeanstalkdWorkServer;
+use mle86\WQ\WorkProcessor;
+use mle86\WQ\Job\Job;
 
 $processor = new WorkProcessor( BeanstalkdWorkServer::connect("localhost") );
 
 while (true) {
-    $processor->executeNextJob("mail");
+    $processor->executeNextJob("mail", function(Job $job) {
+        $job->...;
+    });
 }
 ```
 
