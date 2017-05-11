@@ -43,12 +43,12 @@ and `deleteEntry()` uses the `DELETE` command.
 
 *Work Queues* are Beanstalkd's “tubes”.
 
-* `public function` **`__construct`** `(Pheanstalk $pheanstalk)`  
+* <code>public function <b>__construct</b> (Pheanstalk $pheanstalk)<code>  
     Constructor.
     Takes an already-configured `Pheanstalk` instance to work with.
-    Does not attempt to establish a connection itself --
+    Does not attempt to establish a connection itself –
     use the `connect()` factory method for that instead.
-* `public static function` **`connect`** `(string $host = "localhost", int $port = PheanstalkInterface::DEFAULT_PORT, int $connectTimeout = null)`  
+* <code>public static function <b>connect</b> (string $host = "localhost", int $port = PheanstalkInterface::DEFAULT_PORT, int $connectTimeout = null)<code>  
     Factory method.
     See [Pheanstalk::__construct](https://github.com/pda/pheanstalk/blob/master/src/Pheanstalk.php)
     for the parameter descriptions.
