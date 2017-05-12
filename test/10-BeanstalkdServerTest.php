@@ -70,8 +70,8 @@ class BeanstalkdServerTest
 		// ...but if we really want, we can definitely poll it:
 		$ret = $ws->getNextQueueEntry(["unrelated-empty-queue-403165009", $queue_name], $ws::NOBLOCK);
 		$this->assertInstanceOf(QueueEntry::class, $ret,
-			"We're still subscribed to Beanstalkd's implicit '{$queue_name}' tube! \n" .
-			"(We successfully retrieved a job in the '{$queue_name}' tube by polling a completely different tube)");
+			"We were unable to poll a job from Beanstalkd's implicit '{$queue_name}' tube " .
+			"after first ignoring and then re-watching it!");
 		$this->assertSame($j->getMarker(), $ret->getJob()->getMarker(),
 			"We got an UNEXPECTED job from the '{$queue_name}' tube!");
 		$this->assertSame($queue_name, $ret->getWorkQueue(),
