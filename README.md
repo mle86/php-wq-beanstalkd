@@ -74,7 +74,7 @@ use mle86\WQ\Job\Job;
 $processor = new WorkProcessor( BeanstalkdWorkServer::connect("localhost") );
 
 while (true) {
-    $processor->executeNextJob("mail", function(Job $job) {
+    $processor->processNextJob("mail", function(Job $job) {
         $job->...;
     });
 }
@@ -82,6 +82,6 @@ while (true) {
 
 This executes all jobs available in the local Beanstalkd server's “`mail`” tube, forever.
 It will however abort if one of the jobs throws an exception –
-you might want to add a logging try-catch block around the `executeNextJob()` call
+you might want to add a logging try-catch block around the `processNextJob()` call
 as shown in [WQ's “Minimal Example”](https://github.com/mle86/php-wq#minimal-example).
 
