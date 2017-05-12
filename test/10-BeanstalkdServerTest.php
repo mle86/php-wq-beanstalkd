@@ -4,6 +4,7 @@ namespace mle86\WQ\Tests;
 use mle86\WQ\WorkServerAdapter\WorkServerAdapter;
 use mle86\WQ\WorkServerAdapter\BeanstalkdWorkServer;
 use mle86\WQ\Job\QueueEntry;
+use mle86\WQ\Job\Job;
 use Pheanstalk\Exception\ConnectionException;
 use Pheanstalk\Pheanstalk;
 use Pheanstalk\PheanstalkInterface;
@@ -72,7 +73,10 @@ class BeanstalkdServerTest
 		$this->assertInstanceOf(QueueEntry::class, $ret,
 			"We were unable to poll a job from Beanstalkd's implicit '{$queue_name}' tube " .
 			"after first ignoring and then re-watching it!");
-		$this->assertSame($j->getMarker(), $ret->getJob()->getMarker(),
+
+		/** @var Job|SimpleJob $qj */
+		$qj = $ret->getJob();
+		$this->assertSame($j->getMarker(), $qj->getMarker(),
 			"We got an UNEXPECTED job from the '{$queue_name}' tube!");
 		$this->assertSame($queue_name, $ret->getWorkQueue(),
 			"The job retrieved from the '{$queue_name}' tube contains an incorrect origin reference!");
