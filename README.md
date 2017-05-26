@@ -1,7 +1,7 @@
 # WQ-Beanstalkd  (`mle86/wq-beanstalkd`)
 
 This package contains the PHP class
-`mle86\WQ\WorkServerAdapter\`**`BeanstalkdWorkServer`**.
+<code>mle86\WQ\WorkServerAdapter\\<b>BeanstalkdWorkServer</b></code>.
 
 It supplements the
 [**mle86/wq**](https://github.com/mle86/php-wq) package
@@ -34,7 +34,7 @@ $ composer require mle86/wq-beanstalkd
 
 # Class reference
 
-`class mle86\WQ\WorkServerAdapter\`**`BeanstalkdWorkServer`** `implements WorkServerAdapter`
+<code>class mle86\WQ\WorkServerAdapter\\<b>BeanstalkdWorkServer</b> implements WorkServerAdapter</code>
 
 `getNextQueueEntry()` uses the `RESERVE` command,
 `buryEntry()` uses the `BURY` command,
@@ -43,12 +43,12 @@ and `deleteEntry()` uses the `DELETE` command.
 
 *Work Queues* are Beanstalkd's “tubes”.
 
-* <code>public function <b>__construct</b> (Pheanstalk $pheanstalk)<code>  
+* <code>public function <b>__construct</b> (Pheanstalk $pheanstalk)</code>  
     Constructor.
     Takes an already-configured `Pheanstalk` instance to work with.
     Does not attempt to establish a connection itself –
     use the `connect()` factory method for that instead.
-* <code>public static function <b>connect</b> (string $host = "localhost", int $port = PheanstalkInterface::DEFAULT_PORT, int $connectTimeout = null)<code>  
+* <code>public static function <b>connect</b> (string $host = "localhost", int $port = PheanstalkInterface::DEFAULT_PORT, int $connectTimeout = null)</code>  
     Factory method.
     See [Pheanstalk::__construct](https://github.com/pda/pheanstalk/blob/master/src/Pheanstalk.php)
     for the parameter descriptions.
