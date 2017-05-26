@@ -54,7 +54,7 @@ and `deleteEntry()` uses the `DELETE` command.
     for the parameter descriptions.
 
 Interface methods
-which are documented in the [`WorkServerAdapter`](https://github.com/mle86/php-wq#workserveradapter-interface) interface:
+which are documented in the [`WorkServerAdapter`](https://github.com/mle86/php-wq/blob/master/doc/Ref_WorkServerAdapter_interface.md) interface:
 
 * <code>public function <b>storeJob</b> (string $workQueue, Job $job, int $delay = 0)</code>
 * <code>public function <b>getNextQueueEntry</b> ($workQueue, int $timeout = DEFAULT_TIMEOUT) : ?QueueEntry</code>
@@ -83,5 +83,5 @@ while (true) {
 This executes all jobs available in the local Beanstalkd server's “`mail`” tube, forever.
 It will however abort if one of the jobs throws an exception –
 you might want to add a logging try-catch block around the `processNextJob()` call
-as shown in [WQ's “Minimal Example”](https://github.com/mle86/php-wq#minimal-example).
+as shown in [WQ's “Quick Start” example](https://github.com/mle86/php-wq#quick-start).
 
