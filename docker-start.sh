@@ -8,6 +8,6 @@ if [ ! -f /.dockerenv ]; then
 	exit 1
 fi
 
-beanstalkd  -u daemon  -p $BEANSTALKD_PORT  &
+beanstalkd  -u nobody  -p $BEANSTALKD_PORT  &
 
 exec "$@"
