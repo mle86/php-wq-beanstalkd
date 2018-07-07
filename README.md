@@ -25,11 +25,15 @@ and should be compatible
 with all of its future 1.x versions as well.
 
 
-# Installation
+# Installation and Dependencies
 
 ```
 $ composer require mle86/wq-beanstalkd
 ```
+
+It requires PHP 7.1,
+[mle86/wq](https://github.com/mle86/php-wq),
+and [pda/pheanstalk](https://github.com/pda/pheanstalk).
 
 
 # Class reference
