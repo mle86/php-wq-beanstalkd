@@ -152,4 +152,16 @@ class BeanstalkdWorkServer
         $this->ph->delete($entry->getHandle());
     }
 
+    public function disconnect(): void
+    {
+        if ($this->ph) {
+            $this->ph->getConnection()->disconnect();
+            $this->ph = null;
+        }
+    }
+
+    public function __destruct()
+    {
+        $this->disconnect();
+    }
 }
