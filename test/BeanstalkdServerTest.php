@@ -1,4 +1,5 @@
 <?php
+
 namespace mle86\WQ\Tests;
 
 use mle86\WQ\Testing\AbstractWorkServerAdapterTest;
@@ -28,7 +29,7 @@ class BeanstalkdServerTest extends AbstractWorkServerAdapterTest
 
         $e = null;
         try {
-            (new BeanstalkdWorkServer (new Pheanstalk ("localhost", PheanstalkInterface::DEFAULT_PORT)))
+            (new BeanstalkdWorkServer(new Pheanstalk("localhost", PheanstalkInterface::DEFAULT_PORT)))
                 ->getNextQueueEntry("@this-should-not-exist-29743984375345", BeanstalkdWorkServer::NOBLOCK);
         } catch (ConnectionException $e) {
             // ok
@@ -54,7 +55,7 @@ class BeanstalkdServerTest extends AbstractWorkServerAdapterTest
      *
      * @param WorkServerAdapter $ws
      */
-    protected function checkDefaultTube(WorkServerAdapter $ws)
+    protected function checkDefaultTube(WorkServerAdapter $ws): void
     {
         $queue_name = "default";
 

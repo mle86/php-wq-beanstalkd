@@ -1,4 +1,5 @@
 <?php
+
 namespace mle86\WQ\WorkServerAdapter;
 
 use mle86\WQ\Exception\UnserializationException;
@@ -21,15 +22,13 @@ use Pheanstalk\PheanstalkInterface;
  *
  * @see https://github.com/pda/pheanstalk  Uses the pda/pheanstalk package by Paul Annesley
  */
-class BeanstalkdWorkServer
-    implements WorkServerAdapter
+class BeanstalkdWorkServer implements WorkServerAdapter
 {
 
     /** @var Pheanstalk */
     private $ph;
-    /** @var array|null */
+    /** @var array */
     private $lastWatched = ["default"];  // By default, all clients are watching the "default" tube. We don't want that.
-
 
     /**
      * Constructor.
@@ -60,7 +59,7 @@ class BeanstalkdWorkServer
         int $port = PheanstalkInterface::DEFAULT_PORT,
         int $connectTimeout = null
     ): self {
-        return new self (new Pheanstalk ($host, $port, $connectTimeout));
+        return new self(new Pheanstalk($host, $port, $connectTimeout));
     }
 
 
@@ -109,15 +108,15 @@ class BeanstalkdWorkServer
      *
      * @param string[] $workQueues
      */
-    private function enterWorkQueues(array $workQueues)
+    private function enterWorkQueues(array $workQueues): void
     {
-        $watch_tubes  = array_diff($workQueues, $this->lastWatched);
-        $ignore_tubes = array_diff($this->lastWatched, $workQueues);
+        $watchTubes  = array_diff($workQueues, $this->lastWatched);
+        $ignoreTubes = array_diff($this->lastWatched, $workQueues);
 
-        foreach ($watch_tubes as $t) {
+        foreach ($watchTubes as $t) {
             $this->ph->watch($t);
         }
-        foreach ($ignore_tubes as $t) {
+        foreach ($ignoreTubes as $t) {
             $this->ph->ignore($t);
         }
 
