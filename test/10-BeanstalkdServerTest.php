@@ -1,6 +1,8 @@
 <?php
 namespace mle86\WQ\Tests;
 
+use mle86\WQ\Testing\AbstractWorkServerAdapterTest;
+use mle86\WQ\Testing\SimpleTestJob;
 use mle86\WQ\WorkServerAdapter\WorkServerAdapter;
 use mle86\WQ\WorkServerAdapter\BeanstalkdWorkServer;
 use mle86\WQ\Job\QueueEntry;
@@ -9,10 +11,7 @@ use Pheanstalk\Exception\ConnectionException;
 use Pheanstalk\Pheanstalk;
 use Pheanstalk\PheanstalkInterface;
 
-require_once __DIR__ . '/../vendor/mle86/wq/test/helper/AbstractWorkServerAdapterTest.php';
-
-class BeanstalkdServerTest
-    extends AbstractWorkServerAdapterTest
+class BeanstalkdServerTest extends AbstractWorkServerAdapterTest
 {
 
     public function checkEnvironment(): void
@@ -59,7 +58,7 @@ class BeanstalkdServerTest
     {
         $queue_name = "default";
 
-        $j = new SimpleJob (7660);
+        $j = new SimpleTestJob(7660);
         $ws->storeJob($queue_name, $j);
 
         // new connection!
@@ -78,7 +77,7 @@ class BeanstalkdServerTest
             "We were unable to poll a job from Beanstalkd's implicit '{$queue_name}' tube " .
             "after first ignoring and then re-watching it!");
 
-        /** @var Job|SimpleJob $qj */
+        /** @var Job|SimpleTestJob $qj */
         $qj = $ret->getJob();
         $this->assertSame($j->getMarker(), $qj->getMarker(),
             "We got an UNEXPECTED job from the '{$queue_name}' tube!");
